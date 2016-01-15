@@ -48,6 +48,6 @@ Create shortcode
 
 function crls_shortcode( $atts, $content = null ) {
 	$names = explode(" ", $content);
-	    return $content.'<span data-cr-member="'.$names[1].'|'.$names[0].'" style="vertical-align:middle"></span>';
+	    return $content.' <span data-cr-member="'.$names[1].'|'.$names[0].'" style="vertical-align:middle"></span>';
 }
 add_shortcode("score", "crls_shortcode");
