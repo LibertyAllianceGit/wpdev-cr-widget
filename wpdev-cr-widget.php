@@ -2,7 +2,7 @@
 /*
 Plugin Name: Conservative Review Liberty Score Widget
 Plugin URI: http://wpdevelopers.com
-Description: Facebook comments by WP Developers.
+Description: Plugin to enable Conservative Review's Liberty Score to run on sites, with a [score][/score] shortcode.
 Version: 1.0.2
 Author: Ted Slater
 Author URI: http://libertyalliance.com
