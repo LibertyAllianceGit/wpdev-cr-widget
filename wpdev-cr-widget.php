@@ -3,7 +3,7 @@
 Plugin Name: Conservative Review Liberty Score Widget
 Plugin URI: http://wpdevelopers.com
 Description: Facebook comments by WP Developers.
-Version: 1.0.1
+Version: 1.0.2
 Author: Ted Slater
 Author URI: http://libertyalliance.com
 Author Email: tyler@libertyalliance.com
@@ -24,76 +24,18 @@ $myUpdateChecker = new $className(
     __FILE__,
     'master'
 );
- 
-/**********
-Create Options Page
-**********/
 
-add_action( 'admin_menu', 'crls_add_admin_menu' );
-add_action( 'admin_init', 'crls_settings_init' );
-
-function crls_add_admin_menu(  ) { 
-	add_options_page( 'wpdev-cr-widget', 'wpdev-cr-widget', 'manage_options', 'wpdev-cr-widget', 'wpdev-cr-widget_options_page' );
-}
-
-function crls_settings_init(  ) { 
-	register_setting( 'pluginPage', 'crls_settings' );
-	add_settings_section(
-		'crls_pluginPage_section', 
-		__( 'Your section description', 'wordpress' ), 
-		'crls_settings_section_callback', 
-		'pluginPage'
-	);
-
-	add_settings_field( 
-		'crls_text_field_0', 
-		__( 'Settings field description', 'wordpress' ), 
-		'crls_text_field_0_render', 
-		'pluginPage', 
-		'crls_pluginPage_section' 
-	);
-}
-
-function crls_text_field_0_render(  ) { 
-	$options = get_option( 'crls_settings' );
-	?>
-	<input type='text' name='crls_settings[crls_text_field_0]' value='<?php echo $options['crls_text_field_0']; ?>'>
-	<?php
-}
-
-function crls_settings_section_callback(  ) { 
-	echo __( 'This section description', 'wordpress' );
-}
-
-function crls_options_page(  ) { 
-
-	?>
-	<form action='options.php' method='post'>
-		
-		<h2>wpdev-cr-widget</h2>
-		
-		<?php
-		settings_fields( 'pluginPage' );
-		do_settings_sections( 'pluginPage' );
-		submit_button();
-		?>
-		
-	</form>
-	<?php
-
-}
- 
 /**********
 Add Conservative Review Liberty Score Code to Footer
 **********/
 
-//$lsappid = 'CRTV-LibertyAlliance';
+$lsappid = 'CRTV-LibertyAlliance';
 
 function wpdev_crls_footer() {
     global $lsappid;
     if($lsappid) {
         echo '
-<script> var crApiKey = \'' . $options['crls_text_field_0'] . '\'</script> 
+<script> var crApiKey = \'' . $lsappid . '\'</script> 
 <script src="https://api.conservativereview.com/Scripts/CRWidget.js"></script>
 ';
     }
