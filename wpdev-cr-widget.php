@@ -102,7 +102,9 @@ function wpdevcrscore_options_page() {
 Add Conservative Review Liberty Score Code to Footer
 **********/
 
-$lsappid = 'CRTV-LibertyAlliance';
+$wpdevcrscoreoptions = get_option( 'wpdevcrscore_settings' );
+
+$lsappid = $wpdevcrscoreoptions['wpdevcrscore_appid'];
 
 function wpdev_crls_footer() {
     global $lsappid;
