@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Conservative Review Liberty Score Widget
 Plugin URI: http://wpdevelopers.com
 Description: Plugin to enable Conservative Review's Liberty Score to run on sites, with a [score][/score] shortcode.
-Version: 1.0.3
+Version: 1.0.4
 Author: Ted Slater
 Author URI: http://libertyalliance.com
 Author Email: ted@libertyalliance.com

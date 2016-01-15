@@ -1,0 +1,30 @@
+/* Styles for WPDev CR Score Widget Admin */
+
+.wpdev-cr-score-settings h3 {
+    font-size: 1.5rem;
+    color: #263E4C;
+    margin-bottom: 0.8rem;
+}
+
+.wpdev-cr-score-settings .form-table {
+    background: #fff !important;
+    width: auto;
+    padding: 0 1rem !important;
+    display: block;
+    margin-right: 8rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.wpdev-cr-score-settings tr th {
+    color: #BA3F29;
+}
+
+.wpdev-cr-score-settings p.submit input {
+    background: #263E4C;
+    font-weight: bold;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    height: auto;
+}
