@@ -3,7 +3,7 @@
 Plugin Name: Conservative Review Liberty Score Widget
 Plugin URI: http://wpdevelopers.com
 Description: Facebook comments by WP Developers.
-Version: 1.0
+Version: 1.0.1
 Author: Ted Slater
 Author URI: http://libertyalliance.com
 Author Email: tyler@libertyalliance.com
@@ -46,18 +46,18 @@ function crls_settings_init(  ) {
 	);
 
 	add_settings_field( 
-		'lsappid', 
+		'crls_text_field_0', 
 		__( 'Settings field description', 'wordpress' ), 
-		'lsappid_render', 
+		'crls_text_field_0_render', 
 		'pluginPage', 
 		'crls_pluginPage_section' 
 	);
 }
 
-function lsappid_render(  ) { 
+function crls_text_field_0_render(  ) { 
 	$options = get_option( 'crls_settings' );
 	?>
-	<input type='text' name='crls_settings[lsappid]' value='<?php echo $options['lsappid']; ?>'>
+	<input type='text' name='crls_settings[crls_text_field_0]' value='<?php echo $options['crls_text_field_0']; ?>'>
 	<?php
 }
 
@@ -93,7 +93,7 @@ function wpdev_crls_footer() {
     global $lsappid;
     if($lsappid) {
         echo '
-<script> var crApiKey = \'' . $options['lsappid'] . '\'</script> 
+<script> var crApiKey = \'' . $options['crls_text_field_0'] . '\'</script> 
 <script src="https://api.conservativereview.com/Scripts/CRWidget.js"></script>
 ';
     }
