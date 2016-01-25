@@ -3,7 +3,7 @@
 Plugin Name: WP Developers Conservative Review Liberty Score
 Plugin URI: http://wpdevelopers.com
 Description: Plugin to enable Conservative Review's Liberty Score to run on sites, with a [score][/score] shortcode.
-Version: 1.0.5
+Version: 1.0.6
 Author: Ted Slater & Tyler Johnson
 Author URI: http://libertyalliance.com
 Author Email: ted@libertyalliance.com
@@ -31,6 +31,7 @@ Enqueue Admin Plugin Styles
 function wpdev_cr_score_plugin_css() {
         wp_register_style( 'wpdev-cr-score-plugin-css', plugin_dir_url(__FILE__) . 'cr-style.css' );
         wp_enqueue_style( 'wpdev-cr-score-plugin-css' );
+        wp_enqueue_script('wpdev-cr-score-plugin-js', plugin_dir_url(__FILE__) . 'js/wpdev-crls-plugin.js', array('jquery'), true);
 }
 add_action('admin_enqueue_scripts', 'wpdev_cr_score_plugin_css', 20);
 
@@ -126,3 +127,68 @@ function crls_shortcode( $atts, $content = null ) {
 	    return $content.' <span data-cr-member="'.$names[1].'|'.$names[0].'" style="vertical-align:middle"></span>';
 }
 add_shortcode("score", "crls_shortcode");
+
+/**********
+Create TinyMCE Button
+**********/
+
+class TinyMCE_WPDev_Class {
+    function __construct() {
+ 		if ( is_admin() ) {
+		    add_action( 'init', array( &$this, 'setup_tinymce_plugin' ) );
+		    add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts_css' ) );
+		    add_action( 'admin_print_footer_scripts', array( &$this, 'admin_footer_scripts' ) );
+		}
+    }
+
+	function setup_tinymce_plugin() {
+	    if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
+	        return;
+	    }
+	    
+	    if ( get_user_option( 'rich_editing' ) !== 'true' ) {
+	        return;
+	    }
+	 
+	    add_filter( 'mce_external_plugins', array( &$this, 'add_tinymce_plugin' ) );
+	    add_filter( 'mce_buttons', array( &$this, 'add_tinymce_toolbar_button' ) );
+	}
+
+	function add_tinymce_plugin( $plugin_array ) {
+	    $plugin_array['wpdev_class'] = plugin_dir_url( __FILE__ ) . 'tinymce-wpdev-buttons.js';
+	    return $plugin_array;
+	}
+
+	function add_tinymce_toolbar_button( $buttons ) {
+	    array_push( $buttons, 'wpdev_class' );
+	    return $buttons;
+	}
+
+function admin_footer_scripts() {
+
+	if ( ! wp_script_is( 'quicktags' ) ) {
+		return;
+	}
+	?>
+	<script type="text/javascript">
+		QTags.addButton( 'wpdev_class', '', insert_wpdev_class );
+		function insert_wpdev_class() {
+		    // Ask the user to enter a CSS class
+		    var result = '1';
+		    if ( !result ) {
+		        // User cancelled - exit
+		        return;
+		    }
+		    if (result.length === 0) {
+		        // User didn't enter anything - exit
+		        return;
+		    }
+
+		    // Insert
+		    QTags.insertContent('[score]' + result +'[/score]');
+		}
+	</script>
+	<?php
+    }
+ }
+$tinymce_wpdev_class = new TinyMCE_WPDev_Class;
