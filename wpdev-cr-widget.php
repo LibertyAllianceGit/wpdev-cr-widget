@@ -18,13 +18,13 @@ Check for Plugin Updates
 **********/
 
 require 'plugin-update-checker-3.0/plugin-update-checker.php';
-$className = PucFactory::getLatestClassVersion('PucGitHubChecker');
-$myUpdateChecker->setAccessToken('4921ce230f2bd252dd1fafc7afeac812ddf091de');
-$myUpdateChecker = new $className(
+$wpdevClassName = PucFactory::getLatestClassVersion('PucGitHubChecker');
+$wpdevUpdateChecker = new $wpdevClassName(
     'https://github.com/LibertyAllianceGit/wpdev-cr-widget',
     __FILE__,
     'master'
 );
+$wpdevUpdateChecker->setAccessToken('4921ce230f2bd252dd1fafc7afeac812ddf091de');
 
 /**********
 Enqueue Admin Plugin Styles
