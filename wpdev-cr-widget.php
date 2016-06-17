@@ -12,13 +12,14 @@ Text Domain: wpdev-cr-widget
 Copyright 2016 WP Developers & Liberty Alliance
 
 */
- 
+
 /**********
 Check for Plugin Updates
 **********/
 
-require 'plugin-update-checker-2.2/plugin-update-checker.php';
+require 'plugin-update-checker-3.0/plugin-update-checker.php';
 $className = PucFactory::getLatestClassVersion('PucGitHubChecker');
+$myUpdateChecker->setAccessToken('4921ce230f2bd252dd1fafc7afeac812ddf091de');
 $myUpdateChecker = new $className(
     'https://github.com/LibertyAllianceGit/wpdev-cr-widget',
     __FILE__,
@@ -42,48 +43,48 @@ Setup Options Page
 add_action( 'admin_menu', 'wpdevcrscore_add_admin_menu' );
 add_action( 'admin_init', 'wpdevcrscore_settings_init' );
 
-function wpdevcrscore_add_admin_menu() { 
-	add_submenu_page( 
-        'options-general.php', 
-        'WPDev CR Score', 
-        'WPDev CR Score', 
-        'manage_options', 
-        'wpdevcrscore', 
-        'wpdevcrscore_options_page' 
+function wpdevcrscore_add_admin_menu() {
+	add_submenu_page(
+        'options-general.php',
+        'WPDev CR Score',
+        'WPDev CR Score',
+        'manage_options',
+        'wpdevcrscore',
+        'wpdevcrscore_options_page'
     );
 }
 
-function wpdevcrscore_settings_init() { 
+function wpdevcrscore_settings_init() {
 	register_setting( 'pluginPage', 'wpdevcrscore_settings' );
 
 	add_settings_section(
-		'wpdevcrscore_pluginPage_section', 
-		__( 'Settings', 'wpdevcrscore' ), 
-		'wpdevcrscore_settings_section_callback', 
+		'wpdevcrscore_pluginPage_section',
+		__( 'Settings', 'wpdevcrscore' ),
+		'wpdevcrscore_settings_section_callback',
 		'pluginPage'
 	);
 
-	add_settings_field( 
-		'wpdevcrscore_appid', 
-		__( 'APP ID', 'wpdevcrscore' ), 
-		'wpdevcrscore_appid_render', 
-		'pluginPage', 
-		'wpdevcrscore_pluginPage_section' 
+	add_settings_field(
+		'wpdevcrscore_appid',
+		__( 'APP ID', 'wpdevcrscore' ),
+		'wpdevcrscore_appid_render',
+		'pluginPage',
+		'wpdevcrscore_pluginPage_section'
 	);
 }
 
-function wpdevcrscore_appid_render() { 
+function wpdevcrscore_appid_render() {
 	$options = get_option( 'wpdevcrscore_settings' );
 	?>
 	<input type='text' name='wpdevcrscore_settings[wpdevcrscore_appid]' placeholder='CRTV-...' value='<?php echo $options['wpdevcrscore_appid']; ?>'>
 	<?php
 }
 
-function wpdevcrscore_settings_section_callback() { 
+function wpdevcrscore_settings_section_callback() {
 	echo __( 'Plugin to enable Conservative Review\'s Liberty Score to run on sites, with a [score][/score] shortcode.', 'wpdevcrscore' );
 }
 
-function wpdevcrscore_options_page() { 
+function wpdevcrscore_options_page() {
 	?>
 <div class="wpdev-cr-score-settings">
 	<form action='options.php' method='post'>
@@ -111,13 +112,13 @@ function wpdev_crls_footer() {
     global $lsappid;
     if($lsappid) {
         echo '
-<script> var crApiKey = \'' . $lsappid . '\'</script> 
+<script> var crApiKey = \'' . $lsappid . '\'</script>
 <script src="https://api.conservativereview.com/Scripts/CRWidget.js"></script>
 ';
     }
 }
 add_action('wp_footer', 'wpdev_crls_footer', 1000);
- 
+
 /**********
 Create shortcode
 **********/
@@ -144,11 +145,11 @@ class TinyMCE_WPDev_Class {
 	    if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
 	        return;
 	    }
-	    
+
 	    if ( get_user_option( 'rich_editing' ) !== 'true' ) {
 	        return;
 	    }
-	 
+
 	    add_filter( 'mce_external_plugins', array( &$this, 'add_tinymce_plugin' ) );
 	    add_filter( 'mce_buttons', array( &$this, 'add_tinymce_toolbar_button' ) );
 	}
